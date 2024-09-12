@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="popup.css">
+</head>
+<body>
+  <h1>QuickSum</h1>
+  <div>
+    <label for="modelSelect">选择 AI 模型:</label>
+    <select id="modelSelect">
+      <option value="openai">OpenAI GPT</option>
+      <option value="claude">Anthropic Claude</option>
+      <option value="palm">Google PaLM</option>
+      <option value="llama">Meta LLaMA</option>
+    </select>
+  </div>
+  <div>
+    <label for="summaryLengthSelect">摘要长度:</label>
+    <select id="summaryLengthSelect">
+      <option value="short">简短</option>
+      <option value="medium">中等</option>
+      <option value="long">详细</option>
+    </select>
+  </div>
+  <button id="generateBtn">生成摘要</button>
+  <div id="summary"></div>
+  <script src="popup.js"></script>
+</body>
+</html>
