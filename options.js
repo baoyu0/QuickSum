@@ -3,6 +3,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const apiKeyInput = document.getElementById('apiKey');
     const statusDiv = document.getElementById('status');
     const testButton = document.getElementById('test');
+    const iconPreview = document.getElementById('iconPreview');
+
+    // 移除内联SVG，改为加载外部SVG文件
+    fetch(chrome.runtime.getURL('lib/images/icon.svg'))
+        .then(response => response.text())
+        .then(svgContent => {
+            iconPreview.innerHTML = svgContent;
+        });
 
     saveButton.addEventListener('click', function() {
         const apiKey = apiKeyInput.value;
@@ -50,4 +58,16 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.storage.sync.get(['apiKey'], function(result) {
         apiKeyInput.value = result.apiKey || '';
     });
+
+    // 添加主题切换功能
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('change', function() {
+        document.body.classList.toggle('dark-mode', this.checked);
+    });
+
+    // 检查系统主题并设置初始状态
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        themeToggle.checked = true;
+        document.body.classList.add('dark-mode');
+    }
 });

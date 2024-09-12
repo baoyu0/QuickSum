@@ -27,14 +27,19 @@
             color: green;
         }
     </style>
+    <link rel="stylesheet" href="options.css">
 </head>
 <body>
-    <h1>QuickSum 选项</h1>
+    <div id="iconPreview"></div>
     <label for="apiKey">OpenAI API 密钥：</label>
     <input type="text" id="apiKey" />
     <button id="save">保存</button>
     <button id="test">测试 API 密钥</button>
     <div id="status"></div>
+    <label>
+        夜间模式：
+        <input type="checkbox" id="themeToggle">
+    </label>
     <script src="options.js"></script>
 </body>
 </html>

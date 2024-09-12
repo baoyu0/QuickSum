@@ -11,10 +11,10 @@
   ],
   "browser_action": {
     "default_popup": "popup.html",
-    "default_icon": "lib/images/icon32.png"
+    "default_icon": "lib/images/icon.svg"
   },
   "icons": {
-    "32": "lib/images/icon32.png"
+    "32": "lib/images/icon.svg"
   },
   "background": {
     "scripts": ["background.js"],
