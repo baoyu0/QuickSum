@@ -3,7 +3,12 @@
   "name": "Website Summary",
   "version": "1.0",
   "description": "显示网站摘要",
-  "permissions": ["activeTab"],
+  "permissions": [
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://api.bing.microsoft.com/"
+  ],
   "action": {},
   "background": {
     "service_worker": "background.js"

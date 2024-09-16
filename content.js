@@ -1,20 +1,39 @@
 console.log("Content script loaded");
 
-function getWebsiteInfo() {
-  const websiteName = document.querySelector('meta[property="og:site_name"]')?.content || document.title.split(' - ')[0] || new URL(window.location.href).hostname;
+async function getWebsiteInfo() {
   const websiteUrl = new URL(window.location.href).origin;
   
-  // 优先获取中文描述
-  const websiteDescription = 
-    document.querySelector('meta[name="description"][lang="zh"], meta[name="description"][lang="zh-CN"]')?.content ||
-    document.querySelector('meta[name="description"]')?.content ||
-    "无法获取网站简介";
-
-  return {
-    name: websiteName,
+  let websiteInfo = {
+    name: new URL(window.location.href).hostname,
     url: websiteUrl,
-    description: websiteDescription
+    description: "无法获取网站简介"
   };
+
+  try {
+    // 发送消息到background script来执行API请求
+    const response = await chrome.runtime.sendMessage({
+      action: "getBingWebSearch",
+      url: websiteUrl
+    });
+
+    if (response && !response.error) {
+      websiteInfo = response;
+    } else {
+      console.error('Error fetching website description:', response.error);
+    }
+  } catch (error) {
+    console.error('Error fetching website description:', error);
+  }
+
+  // 如果API没有返回结果，保留默认值
+
+  // 清理和截断描述
+  websiteInfo.description = websiteInfo.description.replace(/\s+/g, ' ').trim();
+  if (websiteInfo.description.length > 200) {
+    websiteInfo.description = websiteInfo.description.substring(0, 197) + '...';
+  }
+
+  return websiteInfo;
 }
 
 function showPopup(websiteInfo) {
@@ -23,13 +42,26 @@ function showPopup(websiteInfo) {
     return;
   }
 
-  // 添加 Font Awesome 样式
-  if (!document.querySelector('link[href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"]')) {
+  // 修改Font Awesome加载方式
+  if (!document.querySelector('#font-awesome-css')) {
     const link = document.createElement('link');
+    link.id = 'font-awesome-css';
     link.rel = 'stylesheet';
     link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css';
     document.head.appendChild(link);
   }
+
+  // 添加Font Awesome备用方案
+  const fontAwesomeBackup = `
+    <style id="font-awesome-backup">
+      .fas.fa-globe:before { content: '🌐'; }
+      .fas.fa-link:before { content: '🔗'; }
+      .fas.fa-info-circle:before { content: 'ℹ️'; }
+      .fas.fa-copy:before { content: '📋'; }
+      .fas.fa-check:before { content: '✅'; }
+    </style>
+  `;
+  document.head.insertAdjacentHTML('beforeend', fontAwesomeBackup);
 
   const popupHTML = `
     <div id="summary-popup" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); opacity: 0; background: #f0f5f9; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 9999; width: 360px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif; transition: all 0.3s ease-out; border: 1px solid #e0e0e0;">
@@ -146,10 +178,10 @@ document.head.appendChild(style);
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log("Message received in content script", request);
   if (request.action === "getWebsiteInfo") {
-    const websiteInfo = getWebsiteInfo();
-    showPopup(websiteInfo);
-    console.log("Sending response from content script", {success: true, popupShown: true});
-    sendResponse({success: true, popupShown: true});
+    getWebsiteInfo().then(websiteInfo => {
+      showPopup(websiteInfo);
+      sendResponse({success: true, popupShown: true});
+    });
     return true; // 保持消息通道开放
   }
 });
