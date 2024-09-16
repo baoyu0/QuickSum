@@ -4,22 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QuickSum - 网站总结结果</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary-color: #007AFF;
+      --background-color: #F2F2F7;
+      --card-background: #FFFFFF;
+      --text-color: #1C1C1E;
+      --secondary-text-color: #6E6E73;
+      --border-radius: 10px;
+    }
     body {
-      font-family: 'Roboto', 'Microsoft YaHei', sans-serif;
-      background-color: #f0f4f8;
-      color: #2d3748;
-      line-height: 1.6;
+      font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.5;
       margin: 0;
       padding: 20px;
     }
     .container {
       max-width: 800px;
       margin: 0 auto;
-      background-color: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      background-color: var(--card-background);
+      border-radius: var(--border-radius);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
       padding: 30px;
     }
     header {
@@ -28,13 +36,14 @@
       margin-bottom: 30px;
     }
     .logo {
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       margin-right: 15px;
     }
     h1 {
       font-size: 24px;
-      color: #3b5bdb;
+      font-weight: 500;
+      color: var(--text-color);
       margin: 0;
     }
     .summary-container {
@@ -43,15 +52,15 @@
       gap: 20px;
     }
     .card {
-      background-color: #ffffff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: var(--card-background);
+      border-radius: var(--border-radius);
       padding: 20px;
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(0,0,0,0.1);
     }
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     }
     .card-header {
       display: flex;
@@ -59,49 +68,56 @@
       align-items: center;
       margin-bottom: 15px;
     }
+    .card-title {
+      display: flex;
+      align-items: center;
+    }
     .card-icon {
-      font-size: 24px;
+      font-size: 20px;
       margin-right: 10px;
     }
     .card h2 {
       font-size: 18px;
-      color: #4a5568;
+      font-weight: 500;
+      color: var(--text-color);
       margin: 0;
     }
     .card p {
       font-size: 16px;
-      color: #2d3748;
+      color: var(--secondary-text-color);
       margin: 0;
       word-break: break-word;
     }
     .copy-btn {
-      background-color: #4299e1;
+      background-color: var(--primary-color);
       color: white;
       border: none;
-      padding: 5px 10px;
-      border-radius: 4px;
+      padding: 6px 12px;
+      border-radius: 6px;
       cursor: pointer;
       font-size: 14px;
-      transition: background-color 0.3s;
+      font-weight: 500;
+      transition: background-color 0.3s ease;
     }
     .copy-btn:hover {
-      background-color: #3182ce;
+      background-color: #0056b3;
     }
     .secondary-button {
       display: block;
       width: 100%;
-      background-color: #48bb78;
+      background-color: var(--primary-color);
       color: white;
       border: none;
-      padding: 10px;
-      border-radius: 4px;
+      padding: 12px;
+      border-radius: var(--border-radius);
       cursor: pointer;
       font-size: 16px;
-      margin-top: 20px;
-      transition: background-color 0.3s;
+      font-weight: 500;
+      margin-top: 30px;
+      transition: background-color 0.3s ease;
     }
     .secondary-button:hover {
-      background-color: #38a169;
+      background-color: #0056b3;
     }
     @media (min-width: 640px) {
       .summary-container {
@@ -120,7 +136,7 @@
       <div id="summary" class="summary-container">
         <div class="card">
           <div class="card-header">
-            <div>
+            <div class="card-title">
               <span class="card-icon">🏢</span>
               <h2>网站名称</h2>
             </div>
@@ -130,7 +146,7 @@
         </div>
         <div class="card">
           <div class="card-header">
-            <div>
+            <div class="card-title">
               <span class="card-icon">🔗</span>
               <h2>网站URL</h2>
             </div>
@@ -140,7 +156,7 @@
         </div>
         <div class="card">
           <div class="card-header">
-            <div>
+            <div class="card-title">
               <span class="card-icon">📝</span>
               <h2>网站简介</h2>
             </div>
