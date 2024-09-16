@@ -26,23 +26,20 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
       chrome.tabs.sendMessage(tabs[0].id, {action: "getPageContent"}, (response) => {
         if (response && response.content) {
-          const options = {
-            model: modelSelect.value,
-            length: summaryLengthSelect.value
-          };
-
           chrome.runtime.sendMessage({
-            action: "generateSummary", 
-            content: response.content,
-            options: options
+            action: "generateSummary",
+            content: response.content
           }, (response) => {
-            if (response && response.summary) {
-              summaryDiv.textContent = response.summary;
+            if (response.error) {
+              summaryDiv.textContent = `错误: ${response.error}`;
             } else {
-              summaryDiv.textContent = '生成摘要失败,请重试。';
+              summaryDiv.textContent = response.summary || '无法生成摘要。';
             }
             generateBtn.disabled = false;
           });
+        } else {
+          summaryDiv.textContent = '无法获取网页内容。';
+          generateBtn.disabled = false;
         }
       });
     });

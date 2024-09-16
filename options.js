@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const testButton = document.getElementById('test');
     const statusDiv = document.getElementById('status');
     const modelSelect = document.getElementById('modelSelect');
-    const themeSelect = document.getElementById('themeSelect');
     const apiSettings = document.getElementById('apiSettings');
 
     function showApiSettings(model) {
@@ -20,8 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function saveOptions() {
         const options = {
-            selectedModel: modelSelect.value,
-            themeMode: themeSelect.value
+            selectedModel: modelSelect.value
         };
 
         // 保存特定模型的设置
@@ -41,6 +39,10 @@ document.addEventListener('DOMContentLoaded', function() {
             case 'palm':
                 options.palmApiKey = document.getElementById('palmApiKey').value;
                 break;
+            case 'gemini':
+                options.geminiApiKey = document.getElementById('geminiApiKey').value;
+                options.geminiModel = document.getElementById('geminiModel').value;
+                break;
         }
 
         chrome.storage.sync.set(options, function() {
@@ -55,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 modelSelect.value = items.selectedModel;
                 showApiSettings(items.selectedModel);
             }
-            if (items.themeMode) themeSelect.value = items.themeMode;
 
             // 加载特定模型的设置
             if (items.openaiApiKey) document.getElementById('openaiApiKey').value = items.openaiApiKey;
@@ -65,6 +66,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (items.azureEndpoint) document.getElementById('azureEndpoint').value = items.azureEndpoint;
             if (items.azureDeploymentName) document.getElementById('azureDeploymentName').value = items.azureDeploymentName;
             if (items.palmApiKey) document.getElementById('palmApiKey').value = items.palmApiKey;
+            if (items.geminiApiKey) document.getElementById('geminiApiKey').value = items.geminiApiKey;
+            if (items.geminiModel) document.getElementById('geminiModel').value = items.geminiModel;
         });
     }
 
@@ -72,30 +75,65 @@ document.addEventListener('DOMContentLoaded', function() {
     
     async function testApiConnection() {
         const model = modelSelect.value;
-        let apiKey, endpoint, deploymentName;
-        
+        let apiKey, endpoint, body;
+
         switch(model) {
             case 'openai':
                 apiKey = document.getElementById('openaiApiKey').value;
                 endpoint = 'https://api.openai.com/v1/chat/completions';
+                body = JSON.stringify({
+                    model: document.getElementById('openaiModel').value,
+                    messages: [
+                        {role: "system", content: "你是一个专业的网站分析工具。你的任务是根据提供的URL推断网站的主要内容和目的，而不是分析特定的网页。"},
+                        {role: "user", content: "Hello, can you generate a summary for a test website?"}
+                    ],
+                    max_tokens: 250
+                });
                 break;
             case 'anthropic':
                 apiKey = document.getElementById('anthropicApiKey').value;
                 endpoint = 'https://api.anthropic.com/v1/complete';
+                body = JSON.stringify({
+                    prompt: "Hello, can you generate a summary for a test website?",
+                    max_tokens: 250
+                });
                 break;
             case 'azure':
                 apiKey = document.getElementById('azureApiKey').value;
                 endpoint = document.getElementById('azureEndpoint').value;
-                deploymentName = document.getElementById('azureDeploymentName').value;
+                const deploymentName = document.getElementById('azureDeploymentName').value;
                 if (!endpoint || !deploymentName) {
                     statusDiv.textContent = '请填写 Azure 终端地址和部署名称。';
                     return;
                 }
                 endpoint = `${endpoint}/openai/deployments/${deploymentName}/chat/completions?api-version=2023-05-15`;
+                body = JSON.stringify({
+                    messages: [
+                        {role: "system", content: "你是一个专业的网站分析工具。你的任务是根据提供的URL推断网站的主要内容和目的，而不是分析特定的网页。"},
+                        {role: "user", content: "Hello, can you generate a summary for a test website?"}
+                    ],
+                    max_tokens: 250
+                });
                 break;
             case 'palm':
                 apiKey = document.getElementById('palmApiKey').value;
                 endpoint = 'https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText';
+                body = JSON.stringify({
+                    prompt: "Hello, can you generate a summary for a test website?",
+                    max_tokens: 250
+                });
+                break;
+            case 'gemini':
+                apiKey = document.getElementById('geminiApiKey').value;
+                const modelValue = document.getElementById('geminiModel').value;
+                endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelValue}:generateContent?key=${apiKey}`;
+                body = JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: "Hello, can you generate a summary for a test website?"
+                        }]
+                    }]
+                });
                 break;
             default:
                 statusDiv.textContent = '未知的模型类型。';
@@ -114,15 +152,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
+                    'Authorization': model === 'openai' || model === 'anthropic' || model === 'azure' ? `Bearer ${apiKey}` : undefined
                 },
-                body: JSON.stringify({
-                    messages: [{role: "user", content: "Hello"}]
-                })
+                body: body
             });
 
             if (response.ok) {
                 statusDiv.textContent = 'API 连接成功！';
+                console.log('API 响应:', await response.json());
             } else {
                 const errorData = await response.json();
                 statusDiv.textContent = `API 连接失败: ${errorData.error?.message || response.statusText}`;
@@ -136,20 +173,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 加载保存的选项
     loadOptions();
-
-    // 应用主题
-    function setTheme(mode) {
-        document.body.classList.toggle('dark-mode', mode === 'dark');
-        if (mode === 'system') {
-            const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-            document.body.classList.toggle('dark-mode', isDarkMode);
-        }
-    }
-
-    themeSelect.addEventListener('change', function() {
-        setTheme(this.value);
-    });
-
-    // 初始化主题
-    setTheme(themeSelect.value);
 });

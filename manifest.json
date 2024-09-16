@@ -7,7 +7,8 @@
     "activeTab",
     "storage",
     "tabs",
-    "https://api.openai.com/"
+    "https://api.openai.com/",
+    "https://generativelanguage.googleapis.com/"
   ],
   "browser_action": {
     "default_popup": "popup.html",

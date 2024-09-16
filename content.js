@@ -31,6 +31,15 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         console.log("Website info extracted:", websiteInfo);
         sendResponse(websiteInfo);
     }
+    if (request.action === "getPageContent") {
+        const websiteName = document.title;
+        const websiteUrl = window.location.href;
+        sendResponse({ 
+            content: document.body.innerText, 
+            websiteName: websiteName, 
+            websiteUrl: websiteUrl 
+        });
+    }
     return true;  // 保持消息通道开放
 });
 
