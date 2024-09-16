@@ -32,16 +32,16 @@ function showPopup(websiteInfo) {
   }
 
   const popupHTML = `
-    <div id="summary-popup" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); opacity: 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 9999; width: 360px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif; backdrop-filter: blur(20px); transition: all 0.3s ease-out; border: 1px solid rgba(255,255,255,0.2);">
-      <button id="close-popup" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; color: #4a5568; transition: color 0.3s;">&times;</button>
-      <h2 style="margin-top: 0; margin-bottom: 25px; color: #2d3748; font-size: 24px; font-weight: 600; text-align: center;">网站摘要</h2>
+    <div id="summary-popup" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); opacity: 0; background: #f0f5f9; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 9999; width: 360px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif; transition: all 0.3s ease-out; border: 1px solid #e0e0e0;">
+      <button id="close-popup" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; color: #666666; transition: color 0.3s;">&times;</button>
+      <h2 style="margin-top: 0; margin-bottom: 25px; color: #1a5f7a; font-size: 24px; font-weight: 600; text-align: center;">网站摘要</h2>
       <div style="display: flex; flex-direction: column; gap: 20px;">
         ${createInfoCard('网站名称', websiteInfo.name, 'fas fa-globe')}
         ${createInfoCard('网站 URL', websiteInfo.url, 'fas fa-link', true)}
         ${createInfoCard('网站简介', websiteInfo.description, 'fas fa-info-circle')}
       </div>
       <div style="text-align: center; margin-top: 25px;">
-        <button id="copy-all" style="background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%); color: white; border: none; padding: 12px 25px; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: 500; transition: all 0.3s; box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);">复制全部</button>
+        <button id="copy-all" style="background: #1a5f7a; color: white; border: none; padding: 12px 25px; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: 500; transition: all 0.3s; box-shadow: 0 4px 6px rgba(26, 95, 122, 0.11);">复制全部</button>
       </div>
     </div>
   `;
@@ -91,17 +91,17 @@ function showPopup(websiteInfo) {
 }
 
 function createInfoCard(title, content, iconClass, isUrl = false) {
-  const contentHtml = isUrl ? `<a href="${content}" target="_blank" style="color: #3182ce; text-decoration: none; word-break: break-all; font-size: 16px;">${content}</a>` : `<span style="word-break: break-word; color: #4a5568; font-size: 16px;">${content}</span>`;
+  const contentHtml = isUrl ? `<a href="${content}" target="_blank" style="color: #1a5f7a; text-decoration: none; word-break: break-all; font-size: 16px;">${content}</a>` : `<span style="word-break: break-word; color: #333333; font-size: 16px;">${content}</span>`;
   
   return `
-    <div style="background: linear-gradient(to right, #e0e0e0, #ffffff); border-radius: 12px; padding: 15px; position: relative; transition: all 0.3s; box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);">
+    <div style="background: #ffffff; border-radius: 12px; padding: 15px; position: relative; transition: all 0.3s; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
         <div style="display: flex; align-items: center;">
-          <i class="${iconClass}" style="font-size: 18px; color: #4a5568; margin-right: 10px;"></i>
-          <strong style="color: #2d3748; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">${title}</strong>
+          <i class="${iconClass}" style="font-size: 18px; color: #57c5b6; margin-right: 10px;"></i>
+          <strong style="color: #1a5f7a; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">${title}</strong>
         </div>
         <button class="copy-btn" data-content="${content}" style="background: none; border: none; cursor: pointer; padding: 0; transition: all 0.3s;">
-          <i class="fas fa-copy" style="font-size: 18px; color: #4a5568;"></i>
+          <i class="fas fa-copy" style="font-size: 18px; color: #57c5b6;"></i>
         </button>
       </div>
       <div style="margin-left: 28px;">
@@ -116,7 +116,7 @@ function showCopiedFeedback(button) {
   const originalClass = icon.className;
   const originalColor = icon.style.color;
   icon.className = 'fas fa-check';
-  icon.style.color = '#48bb78'; // 使用绿色表示成功
+  icon.style.color = '#4caf50'; // 使用绿色表示成功
   setTimeout(() => {
     icon.className = originalClass;
     icon.style.color = originalColor;
@@ -127,17 +127,17 @@ function showCopiedFeedback(button) {
 const style = document.createElement('style');
 style.textContent = `
   #summary-popup > div > div:hover {
-    box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
   }
   #summary-popup #close-popup:hover {
-    color: #e53e3e;
+    color: #f44336;
   }
   #summary-popup #copy-all:hover {
-    box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
-    transform: translateY(-1px);
+    background: #57c5b6;
+    box-shadow: 0 7px 14px rgba(87, 197, 182, 0.2);
   }
   #summary-popup .copy-btn:hover i {
-    color: #3182ce;
+    color: #1a5f7a;
   }
 `;
 document.head.appendChild(style);
