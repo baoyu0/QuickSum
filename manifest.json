@@ -1,31 +1,17 @@
 {
-  "manifest_version": 2,
-  "name": "QuickSum - 网站总结插件",
+  "manifest_version": 3,
+  "name": "Website Summary",
   "version": "1.0",
-  "description": "快速总结当前打开网页所属网站的信息",
-  "icons": {
-    "48": "icon.svg"
+  "description": "显示网站摘要",
+  "permissions": ["activeTab"],
+  "action": {},
+  "background": {
+    "service_worker": "background.js"
   },
-  "browser_action": {
-    "default_icon": "icon.svg",
-    "default_popup": "popup.html"
-  },
-  "permissions": [
-    "activeTab",
-    "storage",
-    "https://*/*",
-    "http://*/*",
-    "https://api.bing.microsoft.com/"
-  ],
-  "options_page": "options.html",
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
       "js": ["content.js"]
     }
-  ],
-  "web_accessible_resources": [
-    "summary.html",
-    "summary.js"
   ]
 }
