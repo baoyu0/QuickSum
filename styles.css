@@ -1,0 +1,240 @@
+body {
+  width: 300px;
+  font-family: 'Roboto', 'Microsoft YaHei', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f4f8;
+  color: #2d3748;
+}
+
+.container {
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  margin-right: 15px;
+  width: 50px;
+  height: 50px;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 500;
+  color: #3b5bdb;
+  margin: 0;
+}
+
+.intro {
+  font-size: 18px;
+  color: #6c757d;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+  color: #6c757d;
+}
+
+.icon-button:hover {
+  background-color: #e9ecef;
+}
+
+.primary-button, .secondary-button {
+  width: 100%;
+  padding: 18px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.primary-button {
+  background-color: #3b5bdb;
+}
+
+.primary-button:hover {
+  background-color: #364fc7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.secondary-button {
+  background-color: #37b24d;
+  margin-top: 15px;
+  display: none; /* 初始状态下隐藏 */
+}
+
+.secondary-button:hover {
+  background-color: #2f9e44;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.summary-container {
+  display: none; /* 初始状态下隐藏 */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.summary-container.show {
+  display: grid; /* 当添加 'show' 类时显示 */
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.name-card { background-color: #e7f5ff; }
+.url-card { background-color: #e6fcf5; }
+.description-card { background-color: #fff9db; }
+
+.card-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #3b5bdb;
+  color: white;
+  width: 35px;
+  height: 35px;
+  border-radius: 0 0 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-left: 40px;
+}
+
+.card h2 {
+  font-size: 22px;
+  font-weight: 500;
+  color: #343a40;
+  margin: 0;
+}
+
+.card p {
+  margin: 0;
+  font-size: 16px;
+  color: #495057;
+  word-break: break-word;
+  line-height: 1.6;
+  flex-grow: 1;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+  max-height: none; /* 移除最大高度限制 */
+  overflow-y: visible; /* 移除滚动条 */
+}
+
+.copy-btn {
+  background-color: #3b5bdb;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+  color: white;
+}
+
+.copy-btn:hover {
+  background-color: #364fc7;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto; /* 允许垂直滚动 */
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto; /* 改为 5% 以给顶部和底部留出更多空间 */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 10px;
+  max-height: 90vh; /* 设置最大高度为视口高度的90% */
+  overflow-y: auto; /* 允许内容滚动 */
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.summary-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+@media (min-width: 768px) {
+  .summary-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

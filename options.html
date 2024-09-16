@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>QuickSum 网站总结 - 设置</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    label { display: block; margin-bottom: 5px; }
+    input[type="text"] { width: 300px; padding: 5px; margin-bottom: 10px; }
+    button { padding: 5px 10px; margin-right: 10px; }
+    #status, #testResult, #usageCount { margin-top: 10px; }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h1>QuickSum 网站总结 - 设置</h1>
+  <label for="apiKey">Bing Web Search API 密钥：</label>
+  <input type="text" id="apiKey" placeholder="输入您的API密钥" />
+  <button id="save">保存</button>
+  <button id="test">测试连通性</button>
+  <div id="status"></div>
+  <div id="testResult"></div>
+  <div id="usageCount">本月API调用次数：<span id="count">0</span></div>
+  <button id="resetCount">重置计数</button>
+  <p>
+    如果您还没有Bing Web Search API密钥，请访问
+    <a href="https://www.microsoft.com/en-us/bing/apis/bing-web-search-api" target="_blank">
+      Bing Web Search API 页面
+    </a>
+    注册并获取密钥。
+  </p>
+  <script src="options.js"></script>
+</body>
+</html>

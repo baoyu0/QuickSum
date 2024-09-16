@@ -2,10 +2,61 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>我的Edge插件</title>
+  <title>QuickSum - 网站总结</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>欢迎使用我的Edge插件!</h1>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <img src="icon.svg" alt="QuickSum Logo" width="32" height="32">
+        <h1>QuickSum</h1>
+      </div>
+      <button id="settingsBtn" class="icon-button" title="设置">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 1l9.5 5.5v11L12 23l-9.5-5.5v-11L12 1zm0 2.311L4.5 7.653v8.694l7.5 4.342 7.5-4.342V7.653L12 3.311zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+      </button>
+    </header>
+    <main>
+      <p class="intro">快速获取当前网站的关键信息摘要</p>
+      <button id="summarizeBtn" class="primary-button">
+        <span class="button-text">总结当前网站</span>
+        <div class="loader"></div>
+      </button>
+    </main>
+  </div>
+  <div id="summaryModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="summary" class="summary-container">
+        <div class="card name-card">
+          <div class="card-icon">🏢</div>
+          <div class="card-header">
+            <h2>网站名称</h2>
+            <button class="copy-btn" data-target="websiteName">复制</button>
+          </div>
+          <p id="websiteName"></p>
+        </div>
+        <div class="card url-card">
+          <div class="card-icon">🔗</div>
+          <div class="card-header">
+            <h2>网站URL</h2>
+            <button class="copy-btn" data-target="websiteUrl">复制</button>
+          </div>
+          <p id="websiteUrl"></p>
+        </div>
+        <div class="card description-card">
+          <div class="card-icon">📝</div>
+          <div class="card-header">
+            <h2>网站简介</h2>
+            <button class="copy-btn" data-target="websiteDescription">复制</button>
+          </div>
+          <p id="websiteDescription"></p>
+        </div>
+      </div>
+      <button id="copyAllBtn" class="secondary-button">复制全部</button>
+    </div>
+  </div>
   <script src="popup.js"></script>
 </body>
 </html>

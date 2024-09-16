@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "我的Edge插件",
+  "name": "QuickSum - 网站总结插件",
   "version": "1.0",
-  "description": "这是一个简单的Edge浏览器插件",
+  "description": "快速总结当前打开网页所属网站的信息",
   "icons": {
     "48": "icon.svg"
   },
@@ -11,6 +11,21 @@
     "default_popup": "popup.html"
   },
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "storage",
+    "https://*/*",
+    "http://*/*",
+    "https://api.bing.microsoft.com/"
+  ],
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    "summary.html",
+    "summary.js"
   ]
 }
