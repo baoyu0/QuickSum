@@ -101,11 +101,12 @@ function showPopup(websiteInfo) {
 
   document.getElementById('close-popup').addEventListener('click', closePopup);
 
+  // 修改这部分代码
   document.querySelectorAll('.copy-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const content = e.target.getAttribute('data-content');
+    btn.addEventListener('click', function() {
+      const content = this.getAttribute('data-content');
       navigator.clipboard.writeText(content).then(() => {
-        showCopiedFeedback(e.target);
+        showCopiedFeedback(this);
       }).catch(err => {
         console.error('无法复制文本: ', err);
       });
@@ -149,9 +150,11 @@ function showCopiedFeedback(button) {
   const originalColor = icon.style.color;
   icon.className = 'fas fa-check';
   icon.style.color = '#4caf50'; // 使用绿色表示成功
+  button.disabled = true; // 禁用按钮防止重复点击
   setTimeout(() => {
     icon.className = originalClass;
     icon.style.color = originalColor;
+    button.disabled = false; // 重新启用按钮
   }, 1500);
 }
 
